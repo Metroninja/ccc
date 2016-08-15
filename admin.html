@@ -1,0 +1,13 @@
+<html ng-app="cccApp">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="styles/main.scss" />
+        <script type="text/javascript" src="public/bundle.js" charset="utf-8"></script>
+    </head>
+    <body>
+      <div id="main" ng-controller="adminCtrl">
+        <div ng-show="authenticated">Authed</div>
+        <div ng-hide="authenticated">NotAuthed</div>
+      </div>
+    </body>
+</html>
