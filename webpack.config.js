@@ -1,13 +1,21 @@
 const autoprefixer = require('autoprefixer');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path')
+
+const sassLoaders = [
+  'css-loader',
+  'postcss-loader',
+  'sass-loader?sourceMap'
+]
 
 module.exports = {
   entry: "js/app.js",
-  output: {
-    path: "public",
-    filename: "bundle.js"
-  },
   module: {
     loaders: [
+      { 
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract('style-loader', sassLoaders.join('!')),
+      },
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
@@ -15,13 +23,16 @@ module.exports = {
         query: {
           presets: ['es2015']
         }
-      },
-      { 
-        test: /styles\/.scss$/, 
-        loaders: ["style", "css?sourceMap", "sass?sourceMap"]
       }
     ]
   },
+  output: {
+    path: __dirname + "/public",
+    filename: "[name].js",
+  },
+  plugins: [
+    new ExtractTextPlugin('[name].css')
+  ],
   postcss: [
     autoprefixer(['last 2 versions']),
   ],

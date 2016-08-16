@@ -1,4 +1,5 @@
 require('angular');
+require('../styles/main.scss');
 
 const cccApp = angular.module('cccApp', []);
 
