@@ -4,20 +4,12 @@ html {
 body {
   margin: 0px;
 }
-#main {
-  section {
-    padding: 10px 20px;
-  }
-}
 .subnav {
   padding: 10px 20px;
   background-color: #000;
 
   .item, 
   .item:visited {
-    font-family: "Roboto Slab",Museo,MuseoSlab500,Helvetica,Arial,sans-serif;
-    font-size: 18px;
-    text-decoration: none;
     color: #fff;
     padding: 0px 10px;
 
@@ -33,16 +25,4 @@ body {
   .right-content {
     margin-left: auto;
   }
-}
-.email-auth {
-  justify-content: center;
-  .email {
-    height: 29px;
-    width: 65%;
-    margin-right: 10px;
-  }
-  .submit {
-    padding: 8px 16px;
-  }
-
 }

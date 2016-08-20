@@ -1,14 +1,25 @@
 <html ng-app="cccApp">
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" href="styles/main.scss" />
+        <link rel="stylesheet" href="public/main.css" />
         <script type="text/javascript" src="public/main.js" charset="utf-8"></script>
     </head>
     <body>
       <div id="main" ng-controller="adminCtrl">
         <div ng-include="'partials/subnav.html'"></div>
-        <div ng-show="authenticated">Authed</div>
-        <div ng-hide="authenticated">NotAuthed</div>
-      </div>
+        <section ng-hide="authenticated">
+            <h2>Please Authenticate</h2>
+            <p>Please enter your email, and follow the link sent to you to authenticate.  Ask Erik
+                for access if it's needed.  Your email must be white listed to be an admin</p>
+            <div class="align email-auth" ng-hide="submitting">
+                <input class="email" ng-model="email" type="text" placeholder="email address" />
+                <button class="submit" ng-click="submit()">Submit</button>
+            </div>
+            <div class="align" ng-show="submitting">
+                <h3>{{status}}</h3>
+            </div>
+        </section>
+        <section ng-show="authenticated">NotAuthed</div>
+      </section>
     </body>
 </html>
