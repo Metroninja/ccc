@@ -1,25 +1,57 @@
 <html ng-app="cccApp">
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="public/main.css" />
-        <script type="text/javascript" src="public/main.js" charset="utf-8"></script>
-    </head>
-    <body>
-      <div id="main" ng-controller="adminCtrl">
-        <div ng-include="'partials/subnav.html'"></div>
-        <section ng-hide="authenticated">
-            <h2>Please Authenticate</h2>
-            <p>Please enter your email, and follow the link sent to you to authenticate.  Ask Erik
-                for access if it's needed.  Your email must be white listed to be an admin</p>
-            <div class="align email-auth" ng-hide="submitting">
-                <input class="email" ng-model="email" type="text" placeholder="email address" />
-                <button class="submit" ng-click="submit()">Submit</button>
-            </div>
-            <div class="align" ng-show="submitting">
-                <h3>{{status}}</h3>
-            </div>
-        </section>
-        <section ng-show="authenticated">NotAuthed</div>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="public/main.css" />
+    <script type="text/javascript" src="public/main.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div id="main" ng-controller="adminCtrl">
+      <div ng-include="'partials/subnav.html'"></div>
+      <section ng-hide="authenticated">
+        <h2>Please Authenticate</h2>
+        <p>Please enter your email, and follow the link sent to you to authenticate.  Ask Erik
+            for access if it's needed.  Your email must be white listed to be an admin</p>
+        <div class="align email-auth" ng-hide="submitting">
+          <input class="email" ng-model="email" type="text" placeholder="email address" />
+          <input class="password" ng-model="password" type="text" placeholder="password" />
+          <button class="submit" ng-click="submit()">Submit</button>
+        </div>
+        <div class="align" ng-show="submitting">
+          <h3>{{status}}</h3> 
+        </div>
       </section>
-    </body>
+      <section ng-show="authenticated">
+        <h1 class="center">Admin Access - Get Awesome</h1>
+        <ul class="tabs align">
+          <li ng-click="section='teams'">Teams</li>
+          <li ng-click="section='scores'">Scores</li>
+        </ul>
+        <div ng-switch="section">
+          <section class="add-team" ng-switch-when="teams">
+            <h3>Add Team</h3>
+            <div class="align">
+              <input type="text" ng-model="teamName" placeholder="Team Name" />
+              <button class="toggle" ng-click="division='rx'" ng-class="{active: division == 'rx'}">Rx</button>
+              <button class="toggle" ng-click="division='scaled'" ng-class="{active: division == 'scaled'}">Scaled</button>
+              <button class="submit" ng-click="addTeam(teamName, division)">Add Team</button>
+            </div>
+            <h4>{{status}}</h4>
+            <hr />
+            <h4>Teams</h4>
+            <div class="flex-table" >
+              <div class="flex-row align" ng-repeat="team in teams">
+                <div class="flex-column">{{team.name}}</div>
+                <div class="flex-column">{{team.division}}</div>
+                <button class="remove" ng-click="confirm=!confirm">X</button>
+                <button class="remove confirm" ng-show="confirm" ng-click="removeTeam(team.guid)">Really Remove?</button>
+              </div>
+            </div>
+          </section>
+          <section ng-switch-when="scores">
+              Scores!
+          </section>
+        </div>
+      </section>
+    </div>
+  </body>
 </html>

@@ -1,21 +1,69 @@
-html {
-  display: block;
-}
 body {
   margin: 0px;
+  font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: #5D6769;
+  font-size: 14px;
 }
 #main {
-  section {
+  & > section {
     padding: 10px 20px;
   }
+  input, select {
+    height: 29px;
+    margin-right: 10px;
+  }
+  button {
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 12px;
+    padding: 8px 16px;
+    color: #fff;
+    font-weight: bold;
+    background-color: #3BAE98;
+    border-color: #54E8CC;
+    cursor: pointer;
+    white-space: nowrap;
+
+    &.remove {
+      background-color: #FF7576;
+      border-color: #F55;
+    }
+    &.remove.confirm {
+      margin-left: 5px;
+      background-color: #F55;
+    }
+  }
+  .toggle {
+    border: none;
+    background-color: #DBE3E3;
+    color: #5D6769;
+    border-right: 1px solid #BCC5C5;
+    &:focus {
+      outline: none;
+    }
+    &:last-child {
+      border-right: none;
+    }
+    &.active {
+      background-color: #4DBDEB;
+      color: #fff;
+    }
+
+    & + .submit {
+      margin-left: 10px;
+    }
+  }
+}
+
+.center {
+  text-align: center;
 }
 .subnav {
   padding: 10px 20px;
-  background-color: #000;
+  background-color: #5D6769;
 
   .item, 
   .item:visited {
-    font-family: "Roboto Slab",Museo,MuseoSlab500,Helvetica,Arial,sans-serif;
+    font-family: "Roboto Slab","Museo","MuseoSlab500",Helvetica,Arial,sans-serif;
     font-size: 18px;
     text-decoration: none;
     color: #fff;
@@ -34,15 +82,51 @@ body {
     margin-left: auto;
   }
 }
+
+.tabs {
+  font-family: "Roboto Slab","Museo","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 36px;
+  list-style: none;
+  margin: 5px 0px;
+  background-color: #F0F7F7;
+
+  &.align {
+    justify-content: space-around;
+  }
+  li {
+    cursor: pointer;
+    display: block;
+    padding: 8px 16px;
+
+    &:hover {
+      background-color: #F0F7F7;
+    }
+  }
+}
 .email-auth {
   justify-content: center;
-  .email {
-    height: 29px;
-    width: 65%;
-    margin-right: 10px;
+  .email, .password {
+    width: 45%;
   }
-  .submit {
-    padding: 8px 16px;
+}
+.add-team {
+  input {
+    width: 50%;
   }
+}
 
+.flex-table {
+  .flex-row {
+    display: flex;
+    justify-content: flex-start;
+    margin: 5px 0px;
+
+    .flex-column {
+      width:30%;
+      padding: 5px 10px;
+      &:first-child {
+        flex-grow: 1;
+      }
+    }
+  }
 }
