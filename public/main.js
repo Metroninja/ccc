@@ -17142,7 +17142,7 @@
 	      team.placement[4] = _result3.placement;
 	      overall += _result3.placement;
 	    }
-	    team.overall = overall;
+	    team.overall = overall ? overall : null;
 	    sortedTeams.push(team);
 	  });
 

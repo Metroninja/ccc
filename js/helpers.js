@@ -38,6 +38,7 @@ export function sortTeams(teams){
     if(team.scores[4]){
       standings[team.division][4].push({guid: team.guid, score: team.scores[4]});
     }
+  
   });
   //lets now sort by the scores to get placement for each workout
   let sorted = {
@@ -99,7 +100,7 @@ export function sortTeams(teams){
       team.placement[4] = result.placement;
       overall += result.placement;
     }
-    team.overall = overall;
+    team.overall = overall ? overall : null;
     sortedTeams.push(team);
   });
 
