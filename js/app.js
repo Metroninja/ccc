@@ -2,10 +2,10 @@ require('angular');
 require('../styles/main.scss');
 
 import { isEmpty, reject } from "lodash";
-import { getCookies, setCookie } from "./helpers";
-import { add, authenticate, getTeams, removeTeam } from "./sources";
+import { deleteCookie, getCookies, setCookie } from "./helpers";
+import { add, addScore, authenticate, getTeams, removeTeam } from "./sources";
 
-
+const tournament = 'ccc2016';
 const cccApp = angular.module('cccApp', []);
 
 cccApp.controller('adminCtrl', ($scope) => {
@@ -15,9 +15,9 @@ cccApp.controller('adminCtrl', ($scope) => {
   $scope.email = '';
   $scope.password = '';
   $scope.section = 'teams';
-  $scope.teamName = '';
-  $scope.teams = [];
   $scope.division = 'rx';
+  $scope.workout = 1;
+  $scope.teams = [];
   $scope.key = '';
   $scope.toRemove = '';
 
@@ -60,13 +60,12 @@ cccApp.controller('adminCtrl', ($scope) => {
     $scope.status = 'Submitting Team';
     const payload = {
       name: name,
-      tournament: 'ccc2016',
+      tournament,
       division: division,
       key: $scope.key,
     }
     add(payload, (response) => {
       let data = response.body;
-      console.log('callback addTeam', data);
       if(data.success){
         $scope.$apply(() => {
           $scope.status = "Team added successfully";
@@ -74,6 +73,10 @@ cccApp.controller('adminCtrl', ($scope) => {
         });
       } else {
         //get the message what happened.  probably team exists
+        if(data.msg == 'Not Authenticated'){
+          deleteCookie('auth');
+          location.reload();
+        }
         $scope.$apply( () => {
           $scope.status = data.msg;
         });
@@ -92,6 +95,32 @@ cccApp.controller('adminCtrl', ($scope) => {
       }
     });
   }
+
+  $scope.setWorkout = (number) => {
+    $scope.workout = number;
+  }
+  $scope.setDivision = (division) => {
+    $scope.division = division;
+  }
+  $scope.submitScore = (guid, score) =>{
+    console.log('submit score', guid, score);
+    const payload = {
+      score,
+      guid,
+      workout: $scope.workout,
+      division: $scope.division,
+      tournament,
+      key: $scope.key
+    }
+    addScore(payload, (response) => {
+      console.log('submit score response', response);
+      $scope.$apply(() => {
+        $scope.teams = response.body.data;
+      })
+    });
+
+  }
+
   getTeams('ccc2016', (response) => {
     if(response.body.success){
       $scope.$apply(() => {

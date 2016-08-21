@@ -48,7 +48,29 @@
             </div>
           </section>
           <section ng-switch-when="scores">
-              Scores!
+            <h3>Add Scores</h3>
+            <ul class="toggles align">
+              <li ng-click="setWorkout(1)" ng-class="{active: workout == 1}">Workout 1</li>
+              <li ng-click="setWorkout(2)" ng-class="{active: workout == 2}">Workout 2</li>
+              <li ng-click="setWorkout(3)" ng-class="{active: workout == 3}">Workout 3</li>
+              <li ng-click="setWorkout(4)" ng-class="{active: workout == 4}">Workout 4</li>
+            </ul>
+            <ul class="toggles align">
+              <li ng-click="setDivision('rx')" ng-class="{active: division == 'rx'}">Rx</li>
+              <li ng-click="setDivision('scaled')" ng-class="{active: division == 'scaled'}">Scaled</li>
+            </ul>
+            <div class="flex-table" >
+              <div class="flex-row align" ng-repeat="team in teams" ng-show="team.division == division">
+                <div class="flex-column">{{team.name}}</div>
+                <div class="flex-column">{{team.scores[1] || "--"}}</div>
+                <div class="flex-column">{{team.scores[2] || "--"}}</div>
+                <div class="flex-column">{{team.scores[3] || "--"}}</div>
+                <div class="flex-column">{{team.scores[4] || "--"}}</div>
+
+                <input type="number" placeholder="score" ng-model="score" />
+                <button class="submit" ng-click="submitScore(team.guid, score)">Submit</button>
+              </div>
+            </div>
           </section>
         </div>
       </section>

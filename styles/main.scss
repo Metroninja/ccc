@@ -52,6 +52,22 @@ body {
       margin-left: 10px;
     }
   }
+  .toggles {
+    justify-content: center;
+    li {
+      list-style: none;
+      display: block;
+      padding: 5px 10px;
+      background-color:#DBE3E3;
+      cursor: pointer;
+
+      &.active {
+        background-color: #4DBDEB;
+        color: #fff;
+      }
+
+    }
+  }
 }
 
 .center {

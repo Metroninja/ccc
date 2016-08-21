@@ -4,6 +4,7 @@ export default {
     auth: 'cccAuth',
     add: 'cccAddTeam',
     get: 'cccGetTeams',
-    remove: 'cccRemoveTeam'
+    remove: 'cccRemoveTeam',
+    score: 'cccAddScore',
   }
 }
