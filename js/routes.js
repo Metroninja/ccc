@@ -1,5 +1,6 @@
 export default {
-  path: 'http://local.api.ccc',
+  //path: 'http://local.api.ccc',
+  path: 'http://api.ninjabam.com',
   actions: {
     auth: 'cccAuth',
     add: 'cccAddTeam',
