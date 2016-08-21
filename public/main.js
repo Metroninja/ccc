@@ -58,6 +58,51 @@
 	var tournament = 'ccc2016';
 	var cccApp = angular.module('cccApp', []);
 
+	cccApp.controller('homeCtrl', function ($scope) {
+	  $scope.division = 'rx';
+	  $scope.workout = 0;
+	  $scope.teams = [];
+
+	  $scope.setWorkout = function (number) {
+	    $scope.workout = number;
+	  };
+	  $scope.setDivision = function (division) {
+	    $scope.division = division;
+	  };
+	  $scope.shouldShow = function (team) {
+	    var workout = $scope.workout;
+	    if ($scope.division != team.division) {
+	      return false;
+	    }
+	    if (workout == 1 && !team.scores[1]) {
+	      return false;
+	    }
+	    if (workout > 1 && !team.scores[2]) {
+	      return false;
+	    }
+	    if (workout > 2 && !team.scores[3]) {
+	      return false;
+	    }
+	    if (workout > 3 && !team.scores[4]) {
+	      return false;
+	    }
+	    return true;
+	  };
+
+	  (0, _sources.getTeams)('ccc2016', function (response) {
+	    if (response.body.success) {
+	      (function () {
+	        //ok lets do some CRAZY parsing
+	        var standings = (0, _helpers.sortTeams)(response.body.data);
+	        console.log('returned s', standings);
+	        $scope.$apply(function () {
+	          $scope.teams = standings;
+	        });
+	      })();
+	    }
+	  });
+	});
+
 	cccApp.controller('adminCtrl', function ($scope) {
 	  $scope.authenticated = false;
 	  $scope.status = '';
@@ -16937,7 +16982,7 @@
 
 /***/ },
 /* 3 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
@@ -16950,6 +16995,10 @@
 	exports.getCookies = getCookies;
 	exports.setCookie = setCookie;
 	exports.deleteCookie = deleteCookie;
+	exports.sortTeams = sortTeams;
+
+	var _lodash = __webpack_require__(1);
+
 	function getCookies() {
 	  var cookies = {};
 	  var _iteratorNormalCompletion = true;
@@ -16995,6 +17044,111 @@
 	}
 	function deleteCookie(key) {
 	  document.cookie = key + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC";
+	}
+
+	function sortTeams(teams) {
+	  var standings = {
+	    scaled: { 1: [], 2: [], 3: [], 4: [] },
+	    rx: { 1: [], 2: [], 3: [], 4: [] }
+	  };
+	  //first, for each team drop them into a bucket if they have a score.
+	  teams.forEach(function (team) {
+	    if (team.scores[1]) {
+	      standings[team.division][1].push({ guid: team.guid, score: team.scores[1] });
+	    }
+	    if (team.scores[2]) {
+	      standings[team.division][2].push({ guid: team.guid, score: team.scores[2] });
+	    }
+	    if (team.scores[3]) {
+	      standings[team.division][3].push({ guid: team.guid, score: team.scores[3] });
+	    }
+	    if (team.scores[4]) {
+	      standings[team.division][4].push({ guid: team.guid, score: team.scores[4] });
+	    }
+	  });
+	  //lets now sort by the scores to get placement for each workout
+	  var sorted = {
+	    scaled: {
+	      1: (0, _lodash.orderBy)(standings.scaled[1], ['score'], ['desc']),
+	      2: (0, _lodash.orderBy)(standings.scaled[2], ['score'], ['desc']),
+	      3: (0, _lodash.orderBy)(standings.scaled[3], ['score'], ['desc']),
+	      4: (0, _lodash.orderBy)(standings.scaled[4], ['score'], ['asc'])
+	    },
+	    rx: {
+	      1: (0, _lodash.orderBy)(standings.rx[1], ['score'], ['desc']),
+	      2: (0, _lodash.orderBy)(standings.rx[2], ['score'], ['desc']),
+	      3: (0, _lodash.orderBy)(standings.rx[3], ['score'], ['desc']),
+	      4: (0, _lodash.orderBy)(standings.rx[4], ['score'], ['asc'])
+	    }
+	  };
+	  //ok so now we have the placement of each team  we can now walk each and create a standings
+	  var placed = {
+	    scaled: {
+	      1: sorted.scaled[1].map(function (item, index) {
+	        item.placement = index + 1;return item;
+	      }),
+	      2: sorted.scaled[2].map(function (item, index) {
+	        item.placement = index + 1;return item;
+	      }),
+	      3: sorted.scaled[3].map(function (item, index) {
+	        item.placement = index + 1;return item;
+	      }),
+	      4: sorted.scaled[4].map(function (item, index) {
+	        item.placement = index + 1;return item;
+	      })
+	    },
+	    rx: {
+	      1: sorted.rx[1].map(function (item, index) {
+	        item.placement = index + 1;return item;
+	      }),
+	      2: sorted.rx[2].map(function (item, index) {
+	        item.placement = index + 1;return item;
+	      }),
+	      3: sorted.rx[3].map(function (item, index) {
+	        item.placement = index + 1;return item;
+	      }),
+	      4: sorted.rx[4].map(function (item, index) {
+	        item.placement = index + 1;return item;
+	      })
+	    }
+	  };
+	  //now we have all the scores for each team. 
+	  //walk the teams array again (yah, I know...) and inject their placement
+	  var sortedTeams = [];
+	  teams.forEach(function (team) {
+	    var overall = 0;
+	    team.placement = {};
+	    if (team.scores[1]) {
+	      //find them in the sorted array
+	      var result = (0, _lodash.find)(placed[team.division][1], { 'guid': team.guid });
+	      team.placement[1] = result.placement;
+	      overall += result.placement;
+	    }
+	    if (team.scores[2]) {
+	      //find them in the sorted array
+	      var _result = (0, _lodash.find)(placed[team.division][2], { 'guid': team.guid });
+	      team.placement[2] = _result.placement;
+	      overall += _result.placement;
+	    }
+	    if (team.scores[3]) {
+	      //find them in the sorted array
+	      var _result2 = (0, _lodash.find)(placed[team.division][3], { 'guid': team.guid });
+	      team.placement[3] = _result2.placement;
+	      overall += _result2.placement;
+	    }
+	    if (team.scores[4]) {
+	      //find them in the sorted array
+	      var _result3 = (0, _lodash.find)(placed[team.division][4], { 'guid': team.guid });
+	      team.placement[4] = _result3.placement;
+	      overall += _result3.placement;
+	    }
+	    team.overall = overall;
+	    sortedTeams.push(team);
+	  });
+
+	  //ANDDDDDD sort the teams.  Again.  Because now we have placement info
+
+	  return (0, _lodash.orderBy)(sortedTeams, ['overall'], ['asc']);
 	}
 
 /***/ },
@@ -18638,8 +18792,8 @@
 	  value: true
 	});
 	exports.default = {
-	  //path: 'http://local.api.ccc',
-	  path: 'http://api.ninjabam.com',
+	  path: 'http://local.api.ccc',
+	  //path: 'http://api.ninjabam.com',
 	  actions: {
 	    auth: 'cccAuth',
 	    add: 'cccAddTeam',

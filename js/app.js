@@ -2,11 +2,54 @@ require('angular');
 require('../styles/main.scss');
 
 import { isEmpty, reject } from "lodash";
-import { deleteCookie, getCookies, setCookie } from "./helpers";
+import { deleteCookie, getCookies, setCookie, sortTeams } from "./helpers";
 import { add, addScore, authenticate, getTeams, removeTeam } from "./sources";
 
 const tournament = 'ccc2016';
 const cccApp = angular.module('cccApp', []);
+
+cccApp.controller('homeCtrl', ($scope) => {
+  $scope.division = 'rx';
+  $scope.workout = 0;
+  $scope.teams = [];
+
+  $scope.setWorkout = (number) => {
+  $scope.workout = number;
+  }
+  $scope.setDivision = (division) => {
+    $scope.division = division;
+  }
+  $scope.shouldShow = (team) => {
+    let workout = $scope.workout;
+    if($scope.division != team.division){
+      return false;
+    }
+    if(workout == 1 && !team.scores[1]){
+      return false;
+    }
+    if(workout > 1 && !team.scores[2]){
+      return false;
+    }
+    if(workout > 2 && !team.scores[3]){
+      return false;
+    }
+    if(workout > 3 && !team.scores[4]){
+      return false;
+    }
+    return true;
+  };
+
+  getTeams('ccc2016', (response) => {
+    if(response.body.success){
+      //ok lets do some CRAZY parsing
+      let standings = sortTeams(response.body.data);
+      console.log('returned s', standings);
+      $scope.$apply(() => {
+        $scope.teams = standings;
+      });
+    }
+  });
+});
 
 cccApp.controller('adminCtrl', ($scope) => {
   $scope.authenticated = false;

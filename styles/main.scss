@@ -8,6 +8,9 @@ body {
   & > section {
     padding: 10px 20px;
   }
+  ul {
+    padding: 0px;
+  }
   input, select {
     height: 29px;
     margin-right: 10px;
@@ -32,8 +35,8 @@ body {
       background-color: #F55;
     }
   }
-  .toggle {
-    border: none;
+  .toggle {    border: none;
+
     background-color: #DBE3E3;
     color: #5D6769;
     border-right: 1px solid #BCC5C5;
@@ -137,6 +140,9 @@ body {
     justify-content: flex-start;
     margin: 5px 0px;
 
+    &:nth-child(even) {
+      background-color: #F0F7F7;
+    }
     .flex-column {
       width:30%;
       padding: 5px 10px;

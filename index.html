@@ -1,12 +1,44 @@
-<html ng-app>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="public/main.css" />
-        <script type="text/javascript" src="public/main.js" charset="utf-8"></script>
-    </head>
-    <body>
-      <div id="main">
-        <div ng-include="'partials/subnav.html'"></div>
-      </div>
-    </body>
+<html ng-app="cccApp">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="public/main.css" />
+    <script type="text/javascript" src="public/main.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div id="main" ng-controller="homeCtrl">
+      <div ng-include="'partials/subnav.html'"></div>
+      <h1>Carrido Crushes Cancer 2016</h1>
+      <ul class="toggles align">
+        <li ng-click="setWorkout(0)" ng-class="{active: workout == 0}">Teams</li>
+        <li ng-click="setWorkout(1)" ng-class="{active: workout == 1}">Workout 1</li>
+        <li ng-click="setWorkout(2)" ng-class="{active: workout == 2}">Workout 2</li>
+        <li ng-click="setWorkout(3)" ng-class="{active: workout == 3}">Workout 3</li>
+        <li ng-click="setWorkout(4)" ng-class="{active: workout == 4}">Final</li>
+      </ul>
+      <ul class="toggles align">
+        <li ng-click="setDivision('rx')" ng-class="{active: division == 'rx'}">Rx</li>
+        <li ng-click="setDivision('scaled')" ng-class="{active: division == 'scaled'}">Scaled</li>
+      </ul>
+      <hr />
+      <div class="flex-table" >
+        <div class="flex-row align">
+          <div class="flex-column"><strong>Team</strong></div>
+          <div class="flex-column"><strong>W 1</strong></div>
+          <div class="flex-column" ng-show="workout > 1 || workout == 0"><strong>W 2</strong></div>
+          <div class="flex-column" ng-show="workout > 2 || workout == 0"><strong>W 3</strong></div>
+          <div class="flex-column" ng-show="workout > 3 || workout == 0"><strong>Final</strong></div>
+          <div class="flex-column" ng-hide="workout == 0"><strong>Overall</strong></div>
+
+        </div>
+        <div class="flex-row align" ng-repeat="team in teams" ng-show="shouldShow(team)">
+          <div class="flex-column">{{team.name}}</div>
+          <div class="flex-column">{{team.scores[1] || "--"}} ({{team.placement[1] || "--"}})</div>
+          <div class="flex-column" ng-show="workout > 1 || workout == 0">{{team.scores[2] || "--"}} ({{team.placement[2] || "--"}})</div>
+          <div class="flex-column" ng-show="workout > 2 || workout == 0">{{team.scores[3] || "--"}} ({{team.placement[3] || "--"}})</div>
+          <div class="flex-column" ng-show="workout > 3 || workout == 0">{{team.scores[4] || "--"}} ({{team.placement[4] || "--"}})</div>
+          <div class="flex-column" ng-hide = "workout == 0">{{team.overall || "--"}}</div>
+
+        </div>
+    </div>
+  </body>
 </html>
