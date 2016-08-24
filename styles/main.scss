@@ -15,6 +15,9 @@ body {
     height: 29px;
     margin-right: 10px;
   }
+  .underline {
+    text-decoration: underline;
+  }
   button {
     font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 12px;
@@ -149,6 +152,24 @@ body {
       &:first-child {
         flex-grow: 1;
       }
+    }
+  }
+}
+
+.workouts {
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  .workout {
+    height: 100px;
+    min-width: 310px;
+    border: 2px solid #5D6769;
+    padding: 10px 5px;
+    margin-bottom: 20px;
+
+    h3 {
+      margin-top:0px;
     }
   }
 }

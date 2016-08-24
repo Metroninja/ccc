@@ -1,6 +1,7 @@
 <html ng-app="cccApp">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="public/main.css" />
     <script type="text/javascript" src="public/main.js" charset="utf-8"></script>
   </head>
@@ -13,22 +14,22 @@
         <li ng-click="setWorkout(1)" ng-class="{active: workout == 1}">Workout 1</li>
         <li ng-click="setWorkout(2)" ng-class="{active: workout == 2}">Workout 2</li>
         <li ng-click="setWorkout(3)" ng-class="{active: workout == 3}">Workout 3</li>
-        <li ng-click="setWorkout(4)" ng-class="{active: workout == 4}">Final</li>
+        <li ng-click="setWorkout(4)" ng-class="{active: workout == 4}">Workout 4</li>
       </ul>
       <ul class="toggles align">
         <li ng-click="setDivision('rx')" ng-class="{active: division == 'rx'}">Rx</li>
         <li ng-click="setDivision('scaled')" ng-class="{active: division == 'scaled'}">Scaled</li>
+        <li ng-click="setDivision('workouts')" ng-class="{active: division == 'workouts'}">Workouts</li>
       </ul>
       <hr />
-      <div class="flex-table" >
+      <div class="flex-table" ng-hide="division == 'workouts'" >
         <div class="flex-row align">
           <div class="flex-column"><strong>Team</strong></div>
           <div class="flex-column"><strong>W 1</strong></div>
           <div class="flex-column" ng-show="workout > 1 || workout == 0"><strong>W 2</strong></div>
           <div class="flex-column" ng-show="workout > 2 || workout == 0"><strong>W 3</strong></div>
-          <div class="flex-column" ng-show="workout > 3 || workout == 0"><strong>Final</strong></div>
-          <div class="flex-column" ng-hide="workout == 0"><strong>Overall</strong></div>
-
+          <div class="flex-column" ng-show="workout > 3 || workout == 0"><strong>W 4</strong></div>
+          <div class="flex-column"><strong>Overall</strong></div>
         </div>
         <div class="flex-row align" ng-repeat="team in teams" ng-show="shouldShow(team)">
           <div class="flex-column">{{team.name}}</div>
@@ -36,9 +37,36 @@
           <div class="flex-column" ng-show="workout > 1 || workout == 0">{{team.scores[2] || "--"}} ({{team.placement[2] || "--"}})</div>
           <div class="flex-column" ng-show="workout > 2 || workout == 0">{{team.scores[3] || "--"}} ({{team.placement[3] || "--"}})</div>
           <div class="flex-column" ng-show="workout > 3 || workout == 0">{{team.scores[4] || "--"}} ({{team.placement[4] || "--"}})</div>
-          <div class="flex-column" ng-hide = "workout == 0">{{team.overall || "--"}}</div>
-
+          <div class="flex-column">{{team.overall || "--"}}</div>
         </div>
+      </div>
+      <div class="align workouts" ng-hide="division != 'workouts'" >
+        <div class="workout">
+          <h3 class="underline">Event 1</h3>
+          <span>8 Minute AMRAP of:</span><br/>
+          <span>4 Ground to Overhead (RX: 135/95), Scaled: 85/65)</span><br/>
+          <span>6 Burpees over the bar</span>
+        </div>
+        <div class="workout">
+          <h3 class="underline">Event 2</h3>
+          <span>1RM Thruster from a rack</span><br/>
+        </div>
+        <div class="workout">
+          <h3 class="underline">Event 3</h3>
+          <span>Team "Diane"</span><br/>
+          <span>21-15-9</span><br/>
+          <span>Deadlifts (Rx: 225/155, Scaled: 165/115)</span><br/>
+          <span>Handstand Push-ups (Scaled: push-ups)</span>
+        </div>
+        <div class="workout">
+          <h3 class="underline">Event 4</h3>
+          <span>Sprint Chipper (for time)</span><br/>
+          <span>25 Calorie Row</span><br/>
+          <span>25 Front Squats</span>
+          <span>25 Box Jumps</span>
+          <span>25 Pull-ups</span>
+        </div>
+      </div>
     </div>
   </body>
 </html>

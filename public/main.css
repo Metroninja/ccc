@@ -14,6 +14,9 @@ body {
   height: 29px;
   margin-right: 10px; }
 
+#main .underline {
+  text-decoration: underline; }
+
 #main button {
   font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
   font-size: 12px;
@@ -123,3 +126,20 @@ body {
     .flex-table .flex-row .flex-column:first-child {
       -ms-flex-positive: 1;
           flex-grow: 1; }
+
+.workouts {
+  -ms-flex-align: start;
+      -ms-grid-row-align: flex-start;
+      align-items: flex-start;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-pack: distribute;
+      justify-content: space-around; }
+  .workouts .workout {
+    height: 100px;
+    min-width: 310px;
+    border: 2px solid #5D6769;
+    padding: 10px 5px;
+    margin-bottom: 20px; }
+    .workouts .workout h3 {
+      margin-top: 0px; }
