@@ -55,7 +55,7 @@
 	__webpack_require__(11);
 	__webpack_require__(13);
 
-	var tournament = 'ccc2016';
+	var tournament = 'wult2016';
 	var cccApp = angular.module('cccApp', []);
 
 	cccApp.controller('homeCtrl', function ($scope) {
@@ -89,7 +89,7 @@
 	    return true;
 	  };
 
-	  (0, _sources.getTeams)('ccc2016', function (response) {
+	  (0, _sources.getTeams)(tournament, function (response) {
 	    if (response.body.success) {
 	      (function () {
 	        //ok lets do some CRAZY parsing
@@ -215,7 +215,7 @@
 	    });
 	  };
 
-	  (0, _sources.getTeams)('ccc2016', function (response) {
+	  (0, _sources.getTeams)(tournament, function (response) {
 	    if (response.body.success) {
 	      $scope.$apply(function () {
 	        $scope.teams = response.body.data;
@@ -17072,13 +17072,13 @@
 	      1: (0, _lodash.orderBy)(standings.scaled[1], ['score'], ['desc']),
 	      2: (0, _lodash.orderBy)(standings.scaled[2], ['score'], ['desc']),
 	      3: (0, _lodash.orderBy)(standings.scaled[3], ['score'], ['desc']),
-	      4: (0, _lodash.orderBy)(standings.scaled[4], ['score'], ['asc'])
+	      4: (0, _lodash.orderBy)(standings.scaled[4], ['score'], ['desc'])
 	    },
 	    rx: {
 	      1: (0, _lodash.orderBy)(standings.rx[1], ['score'], ['desc']),
 	      2: (0, _lodash.orderBy)(standings.rx[2], ['score'], ['desc']),
 	      3: (0, _lodash.orderBy)(standings.rx[3], ['score'], ['desc']),
-	      4: (0, _lodash.orderBy)(standings.rx[4], ['score'], ['asc'])
+	      4: (0, _lodash.orderBy)(standings.rx[4], ['score'], ['desc'])
 	    }
 	  };
 	  //ok so now we have the placement of each team  we can now walk each and create a standings
@@ -17112,7 +17112,7 @@
 	      })
 	    }
 	  };
-	  //now we have all the scores for each team. 
+	  //now we have all the scores for each team.
 	  //walk the teams array again (yah, I know...) and inject their placement
 	  var sortedTeams = [];
 	  teams.forEach(function (team) {
@@ -18801,6 +18801,83 @@
 	    remove: 'cccRemoveTeam',
 	    score: 'cccAddScore'
 	  }
+	};
+
+
+	var justifyYoSelf = function justifyYoSelf(text, length) {
+	  //some reasonable type checking and length
+	  //yes you could put in one really long single word string and break this still
+	  if (typeof text !== 'string' || typeof length != 'number' || length < 10) {
+	    return "I see what you did there.  Quit testing edge cases";
+	  }
+	  //dump the words into an array so we can find out how many spaces needed (length -1)
+	  var wordArray = text.split(" ");
+	  //find out our total character length minus the spaces (i.e. wordcountlength)
+	  //if we assume we want at least one space
+	  var remainingSpace = length - text.length;
+	  //we could end up with a string larger than the buffer.  Gotta break it up then
+	  if (remainingSpace >= 0) {
+	    //sweet, happy path this is easy.
+	    //I'm console logging because it's javascript and this is going on in a terminal
+	    var charLength = text.length - wordArray.length + 1;
+	    //so we need to figure out if the string length is over the buffers
+	    var useable = length - charLength;
+	    console.log(makeLine(wordArray, useable));
+	  } else {
+	    (function () {
+	      //need to break it up into multiline
+	      var current = { size: 0, words: [] };
+	      var lines = [];
+	      wordArray.forEach(function (word) {
+	        if (current.size + word.length + (current.words.length - 1) >= length) {
+	          lines.push(current);
+	          current = { size: 0, words: [] };
+	        }
+	        current.words.push(word);
+	        //length plus trailing space
+	        current.size += word.length;
+	        console.log(current);
+	      });
+	      console.log('pushing', current);
+	      //push the remiaining item onto the stack;
+	      lines.push(current);
+	      //ok we have our sets now.
+	      console.log('foreach', lines);
+	      lines.forEach(function (line) {
+	        console.log('foreach line', line.words, line.size);
+	        var useable = length - line.size;
+	        console.log(makeLine(line.words, useable));
+	      });
+	      //well now we need to create multiple 'lines' and recalculate stuff for each line
+	    })();
+	  }
+	  console.log(makeBuffer(length));
+	  return 'all done';
+	};
+
+	var makeLine = function makeLine(wordArray, remainingSpace) {
+	  console.log('makeLine', wordArray, remainingSpace);
+	  if (wordArray.length === 1) {
+	    return wordArray[0];
+	  }
+	  var spaceCount = Math.floor(remainingSpace / (wordArray.length - 1));
+	  var spaceChars = '';
+	  if (spaceCount) {
+	    for (var i = 0; i < spaceCount; i++) {
+	      //add a space if there is room for them
+	      spaceChars += ' ';
+	    }
+	  }
+	  return wordArray.join(spaceChars);
+	};
+
+	var makeBuffer = function makeBuffer(length) {
+	  var line = '';
+	  for (var i = 1; i <= length; i++) {
+	    var item = i % 10;
+	    line += item ? item - 1 : 9;
+	  }
+	  return line;
 	};
 
 /***/ },
