@@ -83,7 +83,7 @@ body {
   padding: 10px 20px;
   background-color: #5D6769;
 
-  .item, 
+  .item,
   .item:visited {
     font-family: "Roboto Slab","Museo","MuseoSlab500",Helvetica,Arial,sans-serif;
     font-size: 18px;
@@ -162,8 +162,8 @@ body {
   justify-content: space-around;
 
   .workout {
-    height: 100px;
-    min-width: 310px;
+		min-height: 325px;
+    width: 300px;
     border: 2px solid #5D6769;
     padding: 10px 5px;
     margin-bottom: 20px;
