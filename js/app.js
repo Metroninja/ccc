@@ -5,7 +5,7 @@ import { isEmpty, reject } from "lodash";
 import { deleteCookie, getCookies, setCookie, sortTeams } from "./helpers";
 import { add, addScore, authenticate, getTeams, removeTeam } from "./sources";
 
-const tournament = 'ccc2016';
+const tournament = 'wult2016';
 const cccApp = angular.module('cccApp', []);
 
 cccApp.controller('homeCtrl', ($scope) => {
@@ -39,7 +39,7 @@ cccApp.controller('homeCtrl', ($scope) => {
     return true;
   };
 
-  getTeams('ccc2016', (response) => {
+  getTeams(tournament, (response) => {
     if(response.body.success){
       //ok lets do some CRAZY parsing
       let standings = sortTeams(response.body.data);
@@ -86,7 +86,7 @@ cccApp.controller('adminCtrl', ($scope) => {
         setCookie('auth', data.data.key);
         $scope.key = data.data.key;
 
-        $scope.$apply( ()=> { 
+        $scope.$apply( ()=> {
           $scope.authenticated = true;
           $scope.status = '';
         });
@@ -164,7 +164,7 @@ cccApp.controller('adminCtrl', ($scope) => {
 
   }
 
-  getTeams('ccc2016', (response) => {
+  getTeams(tournament, (response) => {
     if(response.body.success){
       $scope.$apply(() => {
         $scope.teams = response.body.data;
@@ -172,4 +172,3 @@ cccApp.controller('adminCtrl', ($scope) => {
     }
   });
 });
-

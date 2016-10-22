@@ -38,7 +38,7 @@ export function sortTeams(teams){
     if(team.scores[4]){
       standings[team.division][4].push({guid: team.guid, score: team.scores[4]});
     }
-  
+
   });
   //lets now sort by the scores to get placement for each workout
   let sorted = {
@@ -46,13 +46,13 @@ export function sortTeams(teams){
       1: orderBy(standings.scaled[1], ['score'], ['desc']),
       2: orderBy(standings.scaled[2], ['score'], ['desc']),
       3: orderBy(standings.scaled[3], ['score'], ['desc']),
-      4: orderBy(standings.scaled[4], ['score'], ['asc']),
+      4: orderBy(standings.scaled[4], ['score'], ['desc']),
     },
     rx: {
       1: orderBy(standings.rx[1], ['score'], ['desc']),
       2: orderBy(standings.rx[2], ['score'], ['desc']),
       3: orderBy(standings.rx[3], ['score'], ['desc']),
-      4: orderBy(standings.rx[4], ['score'], ['asc']),
+      4: orderBy(standings.rx[4], ['score'], ['desc']),
     }
   }
   //ok so now we have the placement of each team  we can now walk each and create a standings
@@ -70,7 +70,7 @@ export function sortTeams(teams){
       4: sorted.rx[4].map((item, index) => { item.placement = index+1; return item}),
     }
   }
-  //now we have all the scores for each team. 
+  //now we have all the scores for each team.
   //walk the teams array again (yah, I know...) and inject their placement
   let sortedTeams = [];
   teams.forEach((team) => {
