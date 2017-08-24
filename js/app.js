@@ -5,7 +5,7 @@ import { isEmpty, reject } from "lodash";
 import { deleteCookie, getCookies, setCookie, sortTeams } from "./helpers";
 import { add, addScore, authenticate, getTeams, removeTeam } from "./sources";
 
-const tournament = 'wult2016';
+const tournament = 'ccc2017';
 const cccApp = angular.module('cccApp', []);
 
 cccApp.controller('homeCtrl', ($scope) => {

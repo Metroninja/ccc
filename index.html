@@ -8,13 +8,12 @@
   <body>
     <div id="main" ng-controller="homeCtrl">
       <div ng-include="'partials/subnav.html'"></div>
-      <h1>We Woke Up Like This 2016</h1>
+      <h1>Car Crush Can 2017</h1>
       <ul class="toggles align">
         <li ng-click="setWorkout(0)" ng-class="{active: workout == 0}">Teams</li>
         <li ng-click="setWorkout(1)" ng-class="{active: workout == 1}">Workout 1</li>
         <li ng-click="setWorkout(2)" ng-class="{active: workout == 2}">Workout 2</li>
         <li ng-click="setWorkout(3)" ng-class="{active: workout == 3}">Workout 3</li>
-        <li ng-click="setWorkout(4)" ng-class="{active: workout == 4}">Workout 4</li>
       </ul>
       <ul class="toggles align">
         <li ng-click="setDivision('rx')" ng-class="{active: division == 'rx'}">Rx</li>
@@ -28,7 +27,6 @@
           <div class="flex-column"><strong>W 1</strong></div>
           <div class="flex-column" ng-show="workout > 1 || workout == 0"><strong>W 2</strong></div>
           <div class="flex-column" ng-show="workout > 2 || workout == 0"><strong>W 3</strong></div>
-          <div class="flex-column" ng-show="workout > 3 || workout == 0"><strong>W 4</strong></div>
           <div class="flex-column"><strong>Overall</strong></div>
         </div>
         <div class="flex-row align" ng-repeat="team in teams" ng-show="shouldShow(team)">
@@ -36,56 +34,56 @@
           <div class="flex-column">{{team.scores[1] || "--"}} ({{team.placement[1] || "--"}})</div>
           <div class="flex-column" ng-show="workout > 1 || workout == 0">{{team.scores[2] || "--"}} ({{team.placement[2] || "--"}})</div>
           <div class="flex-column" ng-show="workout > 2 || workout == 0">{{team.scores[3] || "--"}} ({{team.placement[3] || "--"}})</div>
-          <div class="flex-column" ng-show="workout > 3 || workout == 0">{{team.scores[4] || "--"}} ({{team.placement[4] || "--"}})</div>
           <div class="flex-column">{{team.overall || "--"}}</div>
         </div>
       </div>
       <div class="align workouts" ng-hide="division != 'workouts'" >
         <div class="workout">
           <h3 class="underline">Event 1</h3>
-					<span>Karen+Isabel+Grace</span><br/>
-					<span>AMRAP for 10 minutes of:</span><br/>
-					<span>150 Wall Balls, 14 lb.</span><br/>
-					<span>30 Snatches, 95 lb.</span><br/>
-					<span>30 Clean & Jerks, 95 lb.</span>
+          <p>
+            <strong>AMRAP 8</strong><br/>
+            For 8 minutes teams will compile as many calories and burpee box jumps as possible.<br/></br/>
+            Max Calorie Row: One athlete will always be on the rower. Every 60 seconds teams will rotate athletes,
+            in order, on the rower. Each athlete must row twice.<br/></br/>
+            Max Burpee Box Jumps, 24/20: The non-rowing teammates will perform max reps of burpee box jumps. Break up
+            the reps any way you choose. Only one box per team.<br/></br/>
+            Score total combined calories and reps.
+        </p>
         </div>
         <div class="workout">
           <h3 class="underline">Event 2</h3>
-					<span>Burpee Diane</span><br/>
-					<span>AMRAP for 8 minutes of:</span><br/>
-					<span>42-30-18</span><br/>
-					<span>Deadlifts, 155 lb.</span><br/>
-					<span>Burpees over the bar</span><br/>
-					<span>-then-</span><br/>
-					<span>Max Handstand Push-ups in the remaining time.</span>
+          <p>
+            <strong>MAX OUT</strong><br/>
+            6 minutes to establish:<br/>
+            1RM hang snatch (1M/1F)<br/><br/>
+            Then immediately into a 1 minute AMRAP of synchronized C2B pull-ups.<br/><br/>
+            6 minutes to establish:<br/>
+            1RM hang clean (1M/1F)<br/><br/>
+            Then immediately into a 1 minute AMRAP of synchronized C2B pull-ups.<br/><br/>
+            1M/1F pairs will have 6 minutes to establish a 1RM hang snatch, then will immediately go into a
+            1 minute AMRAP of synchronized C2B pull-ups. The second 1M/1F pair will then have 6 minutes to
+            establish a 1RM hang clean and 1 minute to perform as many synchronized C2B pull-ups as possible.
+            There is no break between the 7 minute periods. Power or squat is permitted for the lifts.<br/><br/>
+            For synchronized C2B pull-ups, athletes do not necessarily need to touch their chests to the bar
+            at the exact same time, but the timing should be very close. Make your best effort. Reps will only be
+            counted after both athletes have touched their chest to the bar.<br/><br/>
+            Score total combined weight and pull-ups. Pounds will count as reps.
+          </p>
         </div>
         <div class="workout">
           <h3 class="underline">Event 3</h3>
-					<span>GHD Annie (time cap: 10 minutes)</span><br/>
-					<span>AMRAP for 10 minutes of:</span><br/>
-					<span>30 Double Unders & 15 GHD Sit-ups</span>
-
-					<p>Each partner must complete an entire round before the other can begin. There will be a short distance between the jump ropes and GHD’s.
-					After completing the GHD Sit-ups, that partner will run back to the jump rope area and tag their partner in. Score total reps.</p>
-        </div>
-        <div class="workout">
-          <h3 class="underline">Event 4</h3>
-					<span>FRANRAP 8</span><br/>
-					<span>AMRAP for 8 minutes of:</span><br/>
-					<span>Round 1</span><br/>
-					<span>21 Pull-ups</span><br/>
-					<span>Max Thrusters, 65 lb.</span><br/>
-					<br/>
-					<span>Round 2</span><br/>
-					<span>15 Pull-ups</span><br/>
-					<span>Max Thrusters</span><br/>
-					<br/>
-					<span>Round 3 and beyond</span><br/>
-					<span>9 Pull-ups</span><br/>
-					<span>Max Thrusters</span><br/>
-					<br/>
-					<p>While one partner performs pull-ups, the other performs as many thrusters as possible. Switch when one partner completes their pull-ups. Both partners
-						must complete 21 pull-ups each before moving to the round 15. Both partners must complete 15 pull-ups each before moving to the round(s) of 9. Score total thrusters.</p>
+          <p><strong>Synchronized Kalsu AMRAP</strong><br/>
+            EMOM 15<br/>
+            5 burpees<br/>
+            Max thrusters (1M/1F synchro) in the remaining time of each minute, 135/95<br/>
+            Synchronized 1M/1F working at the same time. <br/><br/>
+            At the beginning of each minute all 4 teammates will complete 5 burpees. Then one male and one female
+            will begin thrusters for the remainder of the minute. Switch partners as often as needed on thrusters.
+            Workload does not have to be partitioned evenly, but one male and one female need to be working at the same time. <br/><br/>
+            Both athletes must be locked out at the top of each thruster at the same time for the rep to count.
+            One rep = when a pair completes a thruster.
+            </br></br/>
+          </p>
         </div>
       </div>
     </div>

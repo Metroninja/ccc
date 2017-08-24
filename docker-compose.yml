@@ -1,0 +1,16 @@
+version: '2'
+services:
+  web_apache:
+    image: httpd:2.4
+    container_name: c_c_c_web
+    ports:
+      - "6060:80"
+    volumes:
+      - ./:/usr/local/apache2/htdocs
+
+  web:
+    build: .
+    container_name: c_c_c
+    volumes:
+      - ./:/src
+      - /src/node_modules

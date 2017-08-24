@@ -9,10 +9,10 @@ const sassLoaders = [
 ]
 
 module.exports = {
-  entry: "js/app.js",
+  entry: "./js/app.js",
   module: {
     loaders: [
-      { 
+      {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract('style-loader', sassLoaders.join('!')),
       },

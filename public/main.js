@@ -55,7 +55,7 @@
 	__webpack_require__(11);
 	__webpack_require__(13);
 
-	var tournament = 'wult2016';
+	var tournament = 'ccc2017';
 	var cccApp = angular.module('cccApp', []);
 
 	cccApp.controller('homeCtrl', function ($scope) {
@@ -91,14 +91,12 @@
 
 	  (0, _sources.getTeams)(tournament, function (response) {
 	    if (response.body.success) {
-	      (function () {
-	        //ok lets do some CRAZY parsing
-	        var standings = (0, _helpers.sortTeams)(response.body.data);
-	        console.log('returned s', standings);
-	        $scope.$apply(function () {
-	          $scope.teams = standings;
-	        });
-	      })();
+	      //ok lets do some CRAZY parsing
+	      var standings = (0, _helpers.sortTeams)(response.body.data);
+	      console.log('returned s', standings);
+	      $scope.$apply(function () {
+	        $scope.teams = standings;
+	      });
 	    }
 	  });
 	});
@@ -17009,12 +17007,10 @@
 	    for (var _iterator = document.cookie.split('; ')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 	      var cookie = _step.value;
 
-	      var _cookie$split = cookie.split("=");
-
-	      var _cookie$split2 = _slicedToArray(_cookie$split, 2);
-
-	      var name = _cookie$split2[0];
-	      var value = _cookie$split2[1];
+	      var _cookie$split = cookie.split("="),
+	          _cookie$split2 = _slicedToArray(_cookie$split, 2),
+	          name = _cookie$split2[0],
+	          value = _cookie$split2[1];
 
 	      cookies[name] = decodeURIComponent(value);
 	    }
@@ -17048,8 +17044,8 @@
 
 	function sortTeams(teams) {
 	  var standings = {
-	    scaled: { 1: [], 2: [], 3: [], 4: [] },
-	    rx: { 1: [], 2: [], 3: [], 4: [] }
+	    scaled: { 1: [], 2: [], 3: [] },
+	    rx: { 1: [], 2: [], 3: [] }
 	  };
 	  //first, for each team drop them into a bucket if they have a score.
 	  teams.forEach(function (team) {
@@ -17062,27 +17058,21 @@
 	    if (team.scores[3]) {
 	      standings[team.division][3].push({ guid: team.guid, score: team.scores[3] });
 	    }
-	    if (team.scores[4]) {
-	      standings[team.division][4].push({ guid: team.guid, score: team.scores[4] });
-	    }
 	  });
 	  //lets now sort by the scores to get placement for each workout
 	  var sorted = {
 	    scaled: {
 	      1: (0, _lodash.orderBy)(standings.scaled[1], ['score'], ['desc']),
 	      2: (0, _lodash.orderBy)(standings.scaled[2], ['score'], ['desc']),
-	      3: (0, _lodash.orderBy)(standings.scaled[3], ['score'], ['desc']),
-	      4: (0, _lodash.orderBy)(standings.scaled[4], ['score'], ['desc'])
+	      3: (0, _lodash.orderBy)(standings.scaled[3], ['score'], ['desc'])
 	    },
 	    rx: {
 	      1: (0, _lodash.orderBy)(standings.rx[1], ['score'], ['desc']),
 	      2: (0, _lodash.orderBy)(standings.rx[2], ['score'], ['desc']),
-	      3: (0, _lodash.orderBy)(standings.rx[3], ['score'], ['desc']),
-	      4: (0, _lodash.orderBy)(standings.rx[4], ['score'], ['desc'])
+	      3: (0, _lodash.orderBy)(standings.rx[3], ['score'], ['desc'])
 	    }
-	  };
-	  //ok so now we have the placement of each team  we can now walk each and create a standings
-	  var placed = {
+	    //ok so now we have the placement of each team  we can now walk each and create a standings
+	  };var placed = {
 	    scaled: {
 	      1: sorted.scaled[1].map(function (item, index) {
 	        item.placement = index + 1;return item;
@@ -17091,9 +17081,6 @@
 	        item.placement = index + 1;return item;
 	      }),
 	      3: sorted.scaled[3].map(function (item, index) {
-	        item.placement = index + 1;return item;
-	      }),
-	      4: sorted.scaled[4].map(function (item, index) {
 	        item.placement = index + 1;return item;
 	      })
 	    },
@@ -17106,15 +17093,11 @@
 	      }),
 	      3: sorted.rx[3].map(function (item, index) {
 	        item.placement = index + 1;return item;
-	      }),
-	      4: sorted.rx[4].map(function (item, index) {
-	        item.placement = index + 1;return item;
 	      })
 	    }
-	  };
-	  //now we have all the scores for each team.
-	  //walk the teams array again (yah, I know...) and inject their placement
-	  var sortedTeams = [];
+	    //now we have all the scores for each team.
+	    //walk the teams array again (yah, I know...) and inject their placement
+	  };var sortedTeams = [];
 	  teams.forEach(function (team) {
 	    var overall = 0;
 	    team.placement = {};
@@ -17135,12 +17118,6 @@
 	      var _result2 = (0, _lodash.find)(placed[team.division][3], { 'guid': team.guid });
 	      team.placement[3] = _result2.placement;
 	      overall += _result2.placement;
-	    }
-	    if (team.scores[4]) {
-	      //find them in the sorted array
-	      var _result3 = (0, _lodash.find)(placed[team.division][4], { 'guid': team.guid });
-	      team.placement[4] = _result3.placement;
-	      overall += _result3.placement;
 	    }
 	    team.overall = overall ? overall : null;
 	    sortedTeams.push(team);
@@ -18801,83 +18778,6 @@
 	    remove: 'cccRemoveTeam',
 	    score: 'cccAddScore'
 	  }
-	};
-
-
-	var justifyYoSelf = function justifyYoSelf(text, length) {
-	  //some reasonable type checking and length
-	  //yes you could put in one really long single word string and break this still
-	  if (typeof text !== 'string' || typeof length != 'number' || length < 10) {
-	    return "I see what you did there.  Quit testing edge cases";
-	  }
-	  //dump the words into an array so we can find out how many spaces needed (length -1)
-	  var wordArray = text.split(" ");
-	  //find out our total character length minus the spaces (i.e. wordcountlength)
-	  //if we assume we want at least one space
-	  var remainingSpace = length - text.length;
-	  //we could end up with a string larger than the buffer.  Gotta break it up then
-	  if (remainingSpace >= 0) {
-	    //sweet, happy path this is easy.
-	    //I'm console logging because it's javascript and this is going on in a terminal
-	    var charLength = text.length - wordArray.length + 1;
-	    //so we need to figure out if the string length is over the buffers
-	    var useable = length - charLength;
-	    console.log(makeLine(wordArray, useable));
-	  } else {
-	    (function () {
-	      //need to break it up into multiline
-	      var current = { size: 0, words: [] };
-	      var lines = [];
-	      wordArray.forEach(function (word) {
-	        if (current.size + word.length + (current.words.length - 1) >= length) {
-	          lines.push(current);
-	          current = { size: 0, words: [] };
-	        }
-	        current.words.push(word);
-	        //length plus trailing space
-	        current.size += word.length;
-	        console.log(current);
-	      });
-	      console.log('pushing', current);
-	      //push the remiaining item onto the stack;
-	      lines.push(current);
-	      //ok we have our sets now.
-	      console.log('foreach', lines);
-	      lines.forEach(function (line) {
-	        console.log('foreach line', line.words, line.size);
-	        var useable = length - line.size;
-	        console.log(makeLine(line.words, useable));
-	      });
-	      //well now we need to create multiple 'lines' and recalculate stuff for each line
-	    })();
-	  }
-	  console.log(makeBuffer(length));
-	  return 'all done';
-	};
-
-	var makeLine = function makeLine(wordArray, remainingSpace) {
-	  console.log('makeLine', wordArray, remainingSpace);
-	  if (wordArray.length === 1) {
-	    return wordArray[0];
-	  }
-	  var spaceCount = Math.floor(remainingSpace / (wordArray.length - 1));
-	  var spaceChars = '';
-	  if (spaceCount) {
-	    for (var i = 0; i < spaceCount; i++) {
-	      //add a space if there is room for them
-	      spaceChars += ' ';
-	    }
-	  }
-	  return wordArray.join(spaceChars);
-	};
-
-	var makeBuffer = function makeBuffer(length) {
-	  var line = '';
-	  for (var i = 1; i <= length; i++) {
-	    var item = i % 10;
-	    line += item ? item - 1 : 9;
-	  }
-	  return line;
 	};
 
 /***/ },
